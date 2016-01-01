@@ -28,7 +28,7 @@ namespace _523116184522448
         private void buttonFetchEvents_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            fetchCollection(listBoxEvents, m_Utils.Events, "Name");
+            m_Utils.fetchCollection(listBoxEvents, m_Utils.Events, "Name");
             Cursor.Current = Cursors.Default;
             if (listBoxEvents.Items.Count == 0)
             {
@@ -54,7 +54,7 @@ namespace _523116184522448
                 listBoxComments.Items.Clear();
                 int selectedIndex = listView.SelectedItems[0].ImageIndex;
                 m_Utils.EventSelectedPhoto = selectedIndex;
-                fetchCollection(listBoxComments, m_Utils.EventPhotoComments, "Message");
+                m_Utils.fetchCollection(listBoxComments, m_Utils.EventPhotoComments, "Message");
                 if (listBoxComments.Items.Count == 0)
                 {
                     MessageBox.Show("No comments to retrieve :(");
@@ -77,7 +77,7 @@ namespace _523116184522448
             postCommentOnSelectedPhoto();
             if (m_Utils.HasEventSelectedPhoto)
             {
-                fetchCollection(listBoxComments, m_Utils.EventPhotoComments, "Message");
+                m_Utils.fetchCollection(listBoxComments, m_Utils.EventPhotoComments, "Message");
             }
            
             Cursor.Current = Cursors.Default;
@@ -157,15 +157,7 @@ namespace _523116184522448
             }
         }
 
-        private void fetchCollection(ListBox i_Listbox, IEnumerable<object> i_Collection, string i_MemberToDisplay)
-        {
-            i_Listbox.Items.Clear();
-            i_Listbox.DisplayMember = i_MemberToDisplay;
-            foreach (object obj in i_Collection)
-            {
-                i_Listbox.Items.Add(obj);
-            }
-        }
+        
 
         private Image loadImage(string i_Url)
         {

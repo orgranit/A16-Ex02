@@ -53,19 +53,9 @@ namespace _523116184522448
         private void buttonFetchEvents_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            fetchCollection(listBoxEvents, m_utils.Events, "Name");
+            m_utils.fetchCollection(listBoxEvents, m_utils.Events, "Name");
             loadMap();
             Cursor.Current = Cursors.Default;
-        }
-
-        private void fetchCollection(ListBox i_Listbox, IEnumerable<object> i_Collection, string i_MemberToDisplay)
-        {
-            i_Listbox.Items.Clear();
-            i_Listbox.DisplayMember = i_MemberToDisplay;
-            foreach (object obj in i_Collection)
-            {
-                i_Listbox.Items.Add(obj);
-            }
         }
 
         private void listBoxEvents_SelectedIndexChanged(object sender, EventArgs e)

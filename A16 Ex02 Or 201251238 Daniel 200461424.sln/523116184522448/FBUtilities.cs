@@ -5,6 +5,7 @@ using System.Text;
 using Facebook;
 using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
+using System.Windows.Forms;
 
 namespace _523116184522448
 {
@@ -158,6 +159,16 @@ namespace _523116184522448
             { 
                 return m_EventSelectedPhoto != null; 
             } 
+        }
+
+        public void fetchCollection(ListBox i_Listbox, IEnumerable<object> i_Collection, string i_MemberToDisplay)
+        {
+            i_Listbox.Items.Clear();
+            i_Listbox.DisplayMember = i_MemberToDisplay;
+            foreach (object obj in i_Collection)
+            {
+                i_Listbox.Items.Add(obj);
+            }
         }
 
         internal bool CommentOnEventSelctedPhoto(string i_Comment)
