@@ -13,15 +13,11 @@ namespace _EventFullyApp
         public ImageList ImageList { get; set; }
         public ListView ListView { get; set; }
 
-        internal void ImagesAdd(Image i_Image)
+        internal void ImagesAdd(Image i_Image, string i_ImageName, int i_ImageIndex)
         {
             ImageList.Images.Add(i_Image);
-        }
+            ListView.Items.Add(i_ImageName, i_ImageIndex);
 
-        internal void InvokeImagesAdd(Image i_Image, string i_SelectedEventPhotosName, int i_ImageIndex)
-        {
-            ListView.Invoke(new Action(()=> ImageList.Images.Add(i_Image)));
-            ListView.Invoke(new Action(() => ListView.Items.Add(i_SelectedEventPhotosName, i_ImageIndex)));
         }
 
         internal void ImagesClear()
@@ -30,6 +26,11 @@ namespace _EventFullyApp
             ListView.Items.Clear();
         }
 
+        internal void InvokeImagesAdd(Image i_Image, string i_ImageName, int i_ImageIndex)
+        {
+            ListView.Invoke(new Action(() => ImagesAdd(i_Image, i_ImageName, i_ImageIndex)));
+        }
+        
         internal int SelectedItemChanged()
         {
             int selectedIndex = -1;
