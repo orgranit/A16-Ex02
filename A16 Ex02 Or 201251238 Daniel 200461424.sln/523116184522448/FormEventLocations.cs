@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using GMap.NET.WindowsForms;
 using GMap.NET;
+using System.Threading;
 
 namespace _523116184522448
 {
@@ -28,10 +29,8 @@ namespace _523116184522448
 
         private void loadMap()
         {
-            gMapControl.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance;
-            GMaps.Instance.Mode = AccessMode.ServerOnly;
-            gMapControl.SetPositionByKeywords("dubnov, Tel Aviv, Israel");
-
+            gMapControl.Invoke(new Action(() => gMapControl.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance));
+            gMapControl.Invoke(new Action(() => gMapControl.SetPositionByKeywords("dubnov, Tel Aviv, Israel")));
             m_MarkersOverlay = new GMapOverlay("markers");
             foreach (object obj in m_utils.Events)
             {
@@ -46,16 +45,15 @@ namespace _523116184522448
                 }
             }
 
-            gMapControl.Overlays.Add(m_MarkersOverlay);
-            gMapControl.ZoomAndCenterMarkers(null);
+            gMapControl.Invoke(new Action(() => gMapControl.Overlays.Add(m_MarkersOverlay)));
+            gMapControl.Invoke(new Action(() => gMapControl.ZoomAndCenterMarkers(null)));
         }
 
         private void buttonFetchEvents_Click(object sender, EventArgs e)
         {
-            Cursor.Current = Cursors.WaitCursor;
-            m_utils.fetchCollection(listBoxEvents, m_utils.Events, "Name");
-            loadMap();
-            Cursor.Current = Cursors.Default;
+            new Thread(() => m_utils.fetchCollectionAsync(listBoxEvents, m_utils.Events, "Name")).Start();
+            new Thread(() => loadMap()).Start();
+            
         }
 
         private void listBoxEvents_SelectedIndexChanged(object sender, EventArgs e)

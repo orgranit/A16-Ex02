@@ -6,6 +6,7 @@ using Facebook;
 using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace _523116184522448
 {
@@ -161,13 +162,18 @@ namespace _523116184522448
             } 
         }
 
-        public void fetchCollection(ListBox i_Listbox, IEnumerable<object> i_Collection, string i_MemberToDisplay)
+        public void fetchCollectionAsync(ListBox i_Listbox, IEnumerable<object> i_Collection, string i_MemberToDisplay)
         {
-            i_Listbox.Items.Clear();
-            i_Listbox.DisplayMember = i_MemberToDisplay;
+            i_Listbox.Invoke(new Action(() => i_Listbox.Items.Clear()));
+            i_Listbox.Invoke(new Action(() => i_Listbox.DisplayMember = i_MemberToDisplay));
             foreach (object obj in i_Collection)
             {
-                i_Listbox.Items.Add(obj);
+                i_Listbox.Invoke(new Action(() => i_Listbox.Items.Add(obj)));
+            }
+
+            if (i_Listbox.Items.Count == 0)
+            {
+                MessageBox.Show("No items to display :(");
             }
         }
 

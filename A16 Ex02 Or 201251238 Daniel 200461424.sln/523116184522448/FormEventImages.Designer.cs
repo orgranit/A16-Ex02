@@ -63,6 +63,7 @@
             // 
             this.listView.LargeImageList = this.imageListEventImages;
             resources.ApplyResources(this.listView, "listView");
+            this.listView.MultiSelect = false;
             this.listView.Name = "listView";
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.SelectedIndexChanged += new System.EventHandler(this.listView_SelectedIndexChanged);

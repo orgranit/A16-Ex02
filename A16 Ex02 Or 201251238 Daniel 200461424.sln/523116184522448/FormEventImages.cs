@@ -5,7 +5,9 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
+using _EventFullyApp;
 
 namespace _523116184522448
 {
@@ -13,8 +15,9 @@ namespace _523116184522448
     {
         protected const int k_NumOfImages = 5;
         private FBUtilities m_Utils;
+        private ImageContinerFacade m_imageContainerFacade; 
 
-        public FBUtilities FBUtilities 
+        public FBUtilities FBUtilities
         {
             set { m_Utils = value; }
         }
@@ -22,18 +25,19 @@ namespace _523116184522448
         public EventImagesForm()
         {
             InitializeComponent();
+            m_imageContainerFacade = new ImageContinerFacade { ImageList = imageListEventImages, ListView = listView };
         }
 
         // button 'buttonFetchEvents' clicked
         private void buttonFetchEvents_Click(object sender, EventArgs e)
         {
-            Cursor.Current = Cursors.WaitCursor;
-            m_Utils.fetchCollection(listBoxEvents, m_Utils.Events, "Name");
-            Cursor.Current = Cursors.Default;
-            if (listBoxEvents.Items.Count == 0)
+            Thread thread = new Thread(() =>
             {
-                MessageBox.Show("No Events to retrieve :(");
+                m_Utils.fetchCollectionAsync(listBoxEvents, m_Utils.Events, "Name");
             }
+           );
+            thread.Start();
+
         }
 
         // new selected item in 'listBoxEvents'
@@ -41,46 +45,41 @@ namespace _523116184522448
         {
             m_Utils.ResetEventSelectedPhoto();
             listBoxComments.Items.Clear();
-            Cursor.Current = Cursors.WaitCursor;
             displaySelectedEventImages();
-            Cursor.Current = Cursors.Default;
         }
 
         // new selected item in 'listView' (which contains the photos)
         private void listView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listView.SelectedItems.Count > 0)
+            int selectedIndex = m_imageContainerFacade.SelectedItemChanged();
+            if (selectedIndex > 0)
             {
                 listBoxComments.Items.Clear();
-                int selectedIndex = listView.SelectedItems[0].ImageIndex;
                 m_Utils.EventSelectedPhoto = selectedIndex;
-                m_Utils.fetchCollection(listBoxComments, m_Utils.EventPhotoComments, "Message");
-                if (listBoxComments.Items.Count == 0)
-                {
-                    MessageBox.Show("No comments to retrieve :(");
-                }
-            }         
+                new Thread(
+                    () => m_Utils.fetchCollectionAsync(listBoxComments, m_Utils.EventPhotoComments, "Message")
+                    ).Start();
+            }      
         }
 
         // button 'buttonlikePhoto' clicked
         private void buttonlikePhto_Click(object sender, EventArgs e)
         {
-            Cursor.Current = Cursors.WaitCursor;
-            likeSelectedPhoto();
-            Cursor.Current = Cursors.Default;
+            new Thread(() => likeSelectedPhoto()).Start();
         }
 
         // button 'buttonPostComment' clicked
         private void buttonPostComment_Click(object sender, EventArgs e)
         {
-            Cursor.Current = Cursors.WaitCursor;
-            postCommentOnSelectedPhoto();
-            if (m_Utils.HasEventSelectedPhoto)
+            Thread thread = new Thread(() =>
             {
-                m_Utils.fetchCollection(listBoxComments, m_Utils.EventPhotoComments, "Message");
-            }
-           
-            Cursor.Current = Cursors.Default;
+                postCommentOnSelectedPhoto();
+                if (m_Utils.HasEventSelectedPhoto)
+                {
+                    m_Utils.fetchCollectionAsync(listBoxComments, m_Utils.EventPhotoComments, "Message");
+                }
+            });
+            thread.Start();
         }
 
         // post text from 'textBoxCommentPhoto' as a comment to 'm_SelectedPhoto'
@@ -93,7 +92,7 @@ namespace _523116184522448
                     if (m_Utils.CommentOnEventSelctedPhoto(textBoxCommentPhoto.Text))
                     {
                         MessageBox.Show("Comment Succeded!");
-                        textBoxCommentPhoto.Clear();
+                        textBoxCommentPhoto.Invoke(new Action(() => textBoxCommentPhoto.Clear()));
                     }
                     else
                     {
@@ -131,33 +130,39 @@ namespace _523116184522448
         // to  'imageListEventImages'
         private void displaySelectedEventImages()
         {
-            // Clear Images
-            imageListEventImages.Images.Clear();
-            listView.Items.Clear();
 
             // the event location is usually a FB page if not we cant show any photos
-            if (m_Utils.HasAlbumsEvent(listBoxEvents.SelectedItem))
+            object selctedItem = listBoxEvents.SelectedItem;
+            // Clear Old Images
+            m_imageContainerFacade.ImagesClear();
+            if (m_Utils.HasAlbumsEvent(selctedItem))
             {
-                m_Utils.GenerateRandomPhotosEvent(listBoxEvents.SelectedItem, k_NumOfImages);
-                displayPhotos(m_Utils.EventPhotosNames, m_Utils.EventPhotosUrls);
+                Thread thread = new Thread(() =>
+                {
+                    m_Utils.GenerateRandomPhotosEvent(selctedItem, k_NumOfImages);
+                    displayPhotosAsync(m_Utils.EventPhotosNames, m_Utils.EventPhotosUrls);
+                }
+                );
+                thread.Start();
             }
-
-            if (imageListEventImages.Images.Count == 0)
+            else
             {
-                MessageBox.Show("No photos to display.");
+                m_imageContainerFacade.ImagesClear();
+                MessageBox.Show("No items to display.");
             }
         }
 
-        private void displayPhotos(List<string> i_SelectedEventPhotosNames, List<string> i_SelectedEventPhotosUrl)
+        private void displayPhotosAsync(List<string> i_SelectedEventPhotosNames, List<string> i_SelectedEventPhotosUrl)
         {
+
             for (int i = 0; i < i_SelectedEventPhotosUrl.Count; i++)
             {
-                imageListEventImages.Images.Add(loadImage(i_SelectedEventPhotosUrl[i]));
-                listView.Items.Add(i_SelectedEventPhotosNames[i], i);
+                // Add new Images
+                m_imageContainerFacade.InvokeImagesAdd(loadImage(i_SelectedEventPhotosUrl[i]), i_SelectedEventPhotosNames[i], i);
             }
         }
 
-        
+
 
         private Image loadImage(string i_Url)
         {
