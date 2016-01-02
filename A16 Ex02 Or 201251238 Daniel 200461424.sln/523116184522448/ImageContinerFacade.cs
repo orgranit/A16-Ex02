@@ -17,7 +17,6 @@ namespace _EventFullyApp
         {
             ImageList.Images.Add(i_Image);
             ListView.Items.Add(i_ImageName, i_ImageIndex);
-
         }
 
         internal void ImagesClear()

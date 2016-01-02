@@ -14,12 +14,12 @@ namespace _523116184522448
 {
     public partial class EventLocationsForm : Form
     {
-        private FBUtilities m_utils;
+        private FBAdapter m_FBAdapter;
         private GMapOverlay m_MarkersOverlay;
 
-        public FBUtilities FBUtilities 
+        public FBAdapter FBUtilities 
         {
-            set { m_utils = value; }
+            set { m_FBAdapter = value; }
         }
 
         public EventLocationsForm()
@@ -32,15 +32,15 @@ namespace _523116184522448
             gMapControl.Invoke(new Action(() => gMapControl.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance));
             gMapControl.Invoke(new Action(() => gMapControl.SetPositionByKeywords("dubnov, Tel Aviv, Israel")));
             m_MarkersOverlay = new GMapOverlay("markers");
-            foreach (object obj in m_utils.Events)
+            foreach (object obj in m_FBAdapter.Events)
             {
-                if (m_utils.HasLocationEvent(obj))
+                if (m_FBAdapter.HasLocationEvent(obj))
                 {
-                    PointLatLng point = getLatLong(m_utils.GetLatLong(obj));
+                    PointLatLng point = getLatLong(m_FBAdapter.GetLatLong(obj));
                     GMap.NET.WindowsForms.Markers.GMarkerGoogle marker = new GMap.NET.WindowsForms.Markers.GMarkerGoogle(
                         point,
                         GMap.NET.WindowsForms.Markers.GMarkerGoogleType.red_small);
-                    marker.ToolTipText = m_utils.GetEventName(obj);
+                    marker.ToolTipText = m_FBAdapter.GetEventName(obj);
                     m_MarkersOverlay.Markers.Add(marker);
                 }
             }
@@ -51,16 +51,16 @@ namespace _523116184522448
 
         private void buttonFetchEvents_Click(object sender, EventArgs e)
         {
-            new Thread(() => m_utils.fetchCollectionAsync(listBoxEvents, m_utils.Events, "Name")).Start();
+            new Thread(() => m_FBAdapter.fetchCollectionAsync(listBoxEvents, m_FBAdapter.Events, "Name")).Start();
             new Thread(() => loadMap()).Start();
             
         }
 
         private void listBoxEvents_SelectedIndexChanged(object sender, EventArgs e)
         {       
-            if (m_utils.HasLocationEvent(listBoxEvents.SelectedItem))
+            if (m_FBAdapter.HasLocationEvent(listBoxEvents.SelectedItem))
             {
-                gMapControl.Position = getLatLong(m_utils.GetLatLong(listBoxEvents.SelectedItem));
+                gMapControl.Position = getLatLong(m_FBAdapter.GetLatLong(listBoxEvents.SelectedItem));
             }
             else
             {

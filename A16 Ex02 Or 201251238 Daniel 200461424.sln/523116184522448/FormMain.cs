@@ -16,11 +16,11 @@ namespace _523116184522448
     {
         private EventImagesForm m_ImagesFromEventsFrom;
         private EventLocationsForm m_EventLocationForm;
-        private FBUtilities m_utils;
+        private FBAdapter m_utils;
 
         public MainForm()
         {
-            m_utils = new FBUtilities();
+            m_utils = new FBAdapter();
             InitializeComponent();
             buttonEventsImages.Enabled = false;
             buttonEventsLocations.Enabled = false;

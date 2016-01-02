@@ -81,7 +81,7 @@
     <Compile Include="ImageContinerFacade.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FBUtilities.cs" />
+    <Compile Include="FBAdapter.cs" />
     <EmbeddedResource Include="FormEventLocations.resx">
       <DependentUpon>FormEventLocations.cs</DependentUpon>
     </EmbeddedResource>

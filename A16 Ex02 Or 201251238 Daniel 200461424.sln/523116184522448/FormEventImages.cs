@@ -14,12 +14,12 @@ namespace _523116184522448
     public partial class EventImagesForm : Form
     {
         protected const int k_NumOfImages = 5;
-        private FBUtilities m_Utils;
+        private FBAdapter m_FBAdapter;
         private ImageContinerFacade m_imageContainerFacade; 
 
-        public FBUtilities FBUtilities
+        public FBAdapter FBUtilities
         {
-            set { m_Utils = value; }
+            set { m_FBAdapter = value; }
         }
 
         public EventImagesForm()
@@ -33,7 +33,7 @@ namespace _523116184522448
         {
             Thread thread = new Thread(() =>
             {
-                m_Utils.fetchCollectionAsync(listBoxEvents, m_Utils.Events, "Name");
+                m_FBAdapter.fetchCollectionAsync(listBoxEvents, m_FBAdapter.Events, "Name");
             }
            );
             thread.Start();
@@ -43,7 +43,7 @@ namespace _523116184522448
         // new selected item in 'listBoxEvents'
         private void listBoxEvents_SelectedIndexChanged(object sender, EventArgs e)
         {
-            m_Utils.ResetEventSelectedPhoto();
+            m_FBAdapter.ResetEventSelectedPhoto();
             listBoxComments.Items.Clear();
             displaySelectedEventImages();
         }
@@ -55,9 +55,9 @@ namespace _523116184522448
             if (selectedIndex > 0)
             {
                 listBoxComments.Items.Clear();
-                m_Utils.EventSelectedPhoto = selectedIndex;
+                m_FBAdapter.EventSelectedPhoto = selectedIndex;
                 new Thread(
-                    () => m_Utils.fetchCollectionAsync(listBoxComments, m_Utils.EventPhotoComments, "Message")
+                    () => m_FBAdapter.fetchCollectionAsync(listBoxComments, m_FBAdapter.EventPhotoComments, "Message")
                     ).Start();
             }      
         }
@@ -74,9 +74,9 @@ namespace _523116184522448
             Thread thread = new Thread(() =>
             {
                 postCommentOnSelectedPhoto();
-                if (m_Utils.HasEventSelectedPhoto)
+                if (m_FBAdapter.HasEventSelectedPhoto)
                 {
-                    m_Utils.fetchCollectionAsync(listBoxComments, m_Utils.EventPhotoComments, "Message");
+                    m_FBAdapter.fetchCollectionAsync(listBoxComments, m_FBAdapter.EventPhotoComments, "Message");
                 }
             });
             thread.Start();
@@ -85,11 +85,11 @@ namespace _523116184522448
         // post text from 'textBoxCommentPhoto' as a comment to 'm_SelectedPhoto'
         private void postCommentOnSelectedPhoto()
         {
-            if (m_Utils.HasEventSelectedPhoto)
+            if (m_FBAdapter.HasEventSelectedPhoto)
             {
                 if (!string.IsNullOrEmpty(textBoxCommentPhoto.Text))
                 {
-                    if (m_Utils.CommentOnEventSelctedPhoto(textBoxCommentPhoto.Text))
+                    if (m_FBAdapter.CommentOnEventSelctedPhoto(textBoxCommentPhoto.Text))
                     {
                         MessageBox.Show("Comment Succeded!");
                         textBoxCommentPhoto.Invoke(new Action(() => textBoxCommentPhoto.Clear()));
@@ -109,13 +109,13 @@ namespace _523116184522448
         // like 'm_SelectedPhoto'
         private void likeSelectedPhoto()
         {
-            if (m_Utils.HasEventSelectedPhoto)
+            if (m_FBAdapter.HasEventSelectedPhoto)
             {
-                if (m_Utils.HasEventSelectedPhotoLikedByUser)
+                if (m_FBAdapter.HasEventSelectedPhotoLikedByUser)
                 {
                     MessageBox.Show("You already like this photo");
                 }
-                else if (m_Utils.LikeEventSelectedPhoto())
+                else if (m_FBAdapter.LikeEventSelectedPhoto())
                 {
                     MessageBox.Show("Liked!");
                 }
@@ -135,12 +135,12 @@ namespace _523116184522448
             object selctedItem = listBoxEvents.SelectedItem;
             // Clear Old Images
             m_imageContainerFacade.ImagesClear();
-            if (m_Utils.HasAlbumsEvent(selctedItem))
+            if (m_FBAdapter.HasAlbumsEvent(selctedItem))
             {
                 Thread thread = new Thread(() =>
                 {
-                    m_Utils.GenerateRandomPhotosEvent(selctedItem, k_NumOfImages);
-                    displayPhotosAsync(m_Utils.EventPhotosNames, m_Utils.EventPhotosUrls);
+                    m_FBAdapter.GenerateRandomPhotosEvent(selctedItem, k_NumOfImages);
+                    displayPhotosAsync(m_FBAdapter.EventPhotosNames, m_FBAdapter.EventPhotosUrls);
                 }
                 );
                 thread.Start();
