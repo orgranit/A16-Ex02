@@ -12,7 +12,6 @@ namespace _523116184522448
 {
     public class FBAdapter
     {
-
         private static FBAdapter s_Instance = null;
         private static object s_LockObj = new Object();
 
@@ -66,6 +65,11 @@ namespace _523116184522448
             return isLoggedIn;
         }
 
+        internal string UserName
+        {
+            get { return m_LoggedInUser.Name; }
+        }
+        
         internal string LoggedInError()
         {
             return m_result.ErrorMessage;
@@ -75,7 +79,7 @@ namespace _523116184522448
         {
             return m_LoggedInUser.PictureNormalURL;
         }
-
+        
         public IEnumerable<Event> Events 
         {
             get { return m_LoggedInUser.Events; }     

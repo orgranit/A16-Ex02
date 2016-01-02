@@ -16,11 +16,11 @@ namespace _523116184522448
     {
         private EventImagesForm m_ImagesFromEventsFrom;
         private EventLocationsForm m_EventLocationForm;
-        private FBAdapter m_utils;
+        private FBAdapter m_FBAdapter;
 
         public MainForm()
         {
-            m_utils = new FBAdapter();
+            m_FBAdapter = FBAdapter.Instance;
             InitializeComponent();
             buttonEventsImages.Enabled = false;
             buttonEventsLocations.Enabled = false;
@@ -29,7 +29,7 @@ namespace _523116184522448
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             bool isLoggedIn = false;
-            isLoggedIn = m_utils.Login();
+            isLoggedIn = m_FBAdapter.Login();
             if (isLoggedIn)
             {
                 fetchUserInfo();
@@ -39,26 +39,33 @@ namespace _523116184522448
             }
             else
             {
-                MessageBox.Show(m_utils.LoggedInError());
+                MessageBox.Show(m_FBAdapter.LoggedInError());
             }
         }
 
         private void fetchUserInfo()
         {
-            picture_profilePictureBox.LoadAsync(m_utils.UserPictureUrl());
+            userProfilePicturePictureBox.LoadAsync(m_FBAdapter.UserPictureUrl());
+            userNameLabel1.Text = m_FBAdapter.UserName;
+            fetchEvents();
+        }
+
+        private void fetchEvents()
+        {
+            eventBindingSource.DataSource = m_FBAdapter.Events;
         }
 
         private void buttonEventLocations_Click(object sender, EventArgs e)
         {
             m_EventLocationForm = new EventLocationsForm();
-            m_EventLocationForm.FBUtilities = m_utils;
+            m_EventLocationForm.FBUtilities = m_FBAdapter;
             m_EventLocationForm.Show();
         }
 
         private void buttonEventImages_Click(object sender, EventArgs e)
         {
             m_ImagesFromEventsFrom = new EventImagesForm();
-            m_ImagesFromEventsFrom.FBUtilities = m_utils;
+            m_ImagesFromEventsFrom.FBUtilities = m_FBAdapter;
             m_ImagesFromEventsFrom.Show();
         }
     }
