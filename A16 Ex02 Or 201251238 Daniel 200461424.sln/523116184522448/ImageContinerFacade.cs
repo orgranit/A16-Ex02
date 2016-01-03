@@ -9,8 +9,8 @@ namespace _EventFullyApp
 {
     public class ImageContinerFacade
     {
-
         public ImageList ImageList { get; set; }
+
         public ListView ListView { get; set; }
 
         internal void ImagesAdd(Image i_Image, string i_ImageName, int i_ImageIndex)

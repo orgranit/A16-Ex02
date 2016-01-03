@@ -2,21 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
+using System.Threading;
 using Facebook;
 using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
-using System.Windows.Forms;
-using System.Threading;
 
 namespace _523116184522448
 {
     public class FBAdapter
     {
         private static FBAdapter s_Instance = null;
-        private static object s_LockObj = new Object();
+        private static object s_LockObj = new object();
 
         /// a private (non accessible) parameterless  CTOR)
-        private FBAdapter() { }
+        private FBAdapter()
+        {
+        }
 
         /// The global access point
         public static FBAdapter Instance

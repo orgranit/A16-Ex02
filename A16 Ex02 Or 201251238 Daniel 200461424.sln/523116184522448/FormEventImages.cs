@@ -34,10 +34,8 @@ namespace _523116184522448
             Thread thread = new Thread(() =>
             {
                 m_FBAdapter.fetchCollectionAsync(listBoxEvents, m_FBAdapter.Events, "Name");
-            }
-           );
+            });
             thread.Start();
-
         }
 
         // new selected item in 'listBoxEvents'
@@ -57,8 +55,7 @@ namespace _523116184522448
                 listBoxComments.Items.Clear();
                 m_FBAdapter.EventSelectedPhoto = selectedIndex;
                 new Thread(
-                    () => m_FBAdapter.fetchCollectionAsync(listBoxComments, m_FBAdapter.EventPhotoComments, "Message")
-                    ).Start();
+                    () => m_FBAdapter.fetchCollectionAsync(listBoxComments, m_FBAdapter.EventPhotoComments, "Message")).Start();
             }      
         }
 
@@ -130,9 +127,9 @@ namespace _523116184522448
         // to  'imageListEventImages'
         private void displaySelectedEventImages()
         {
-
             // the event location is usually a FB page if not we cant show any photos
             object selctedItem = listBoxEvents.SelectedItem;
+
             // Clear Old Images
             m_imageContainerFacade.ImagesClear();
             if (m_FBAdapter.HasAlbumsEvent(selctedItem))
@@ -141,8 +138,7 @@ namespace _523116184522448
                 {
                     m_FBAdapter.GenerateRandomPhotosEvent(selctedItem, k_NumOfImages);
                     displayPhotosAsync(m_FBAdapter.EventPhotosNames, m_FBAdapter.EventPhotosUrls);
-                }
-                );
+                });
                 thread.Start();
             }
             else
@@ -154,15 +150,12 @@ namespace _523116184522448
 
         private void displayPhotosAsync(List<string> i_SelectedEventPhotosNames, List<string> i_SelectedEventPhotosUrl)
         {
-
             for (int i = 0; i < i_SelectedEventPhotosUrl.Count; i++)
             {
                 // Add new Images
                 m_imageContainerFacade.InvokeImagesAdd(loadImage(i_SelectedEventPhotosUrl[i]), i_SelectedEventPhotosNames[i], i);
             }
         }
-
-
 
         private Image loadImage(string i_Url)
         {
