@@ -39,18 +39,19 @@
             // 
             this.labelEventImages.AutoSize = true;
             this.labelEventImages.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.labelEventImages.Location = new System.Drawing.Point(26, 43);
+            this.labelEventImages.Location = new System.Drawing.Point(27, 38);
             this.labelEventImages.Name = "labelEventImages";
-            this.labelEventImages.Size = new System.Drawing.Size(232, 13);
+            this.labelEventImages.Size = new System.Drawing.Size(232, 39);
             this.labelEventImages.TabIndex = 6;
-            this.labelEventImages.Text = "Choose an event to see its location on the map.";
+            this.labelEventImages.Text = "Choose an event to see its location on the map.\nUse right mouse click to drag map" +
+    ",\nMousewheel to zoom";
             // 
             // listBoxEvents
             // 
             this.listBoxEvents.FormattingEnabled = true;
-            this.listBoxEvents.Location = new System.Drawing.Point(12, 69);
+            this.listBoxEvents.Location = new System.Drawing.Point(12, 82);
             this.listBoxEvents.Name = "listBoxEvents";
-            this.listBoxEvents.Size = new System.Drawing.Size(266, 251);
+            this.listBoxEvents.Size = new System.Drawing.Size(266, 238);
             this.listBoxEvents.TabIndex = 5;
             this.listBoxEvents.SelectedIndexChanged += new System.EventHandler(this.listBoxEvents_SelectedIndexChanged);
             // 
@@ -90,7 +91,7 @@
             this.gMapControl.TabIndex = 7;
             this.gMapControl.Zoom = 0D;
             // 
-            // FormDanielFeature
+            // EventLocationsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -101,7 +102,7 @@
             this.Controls.Add(this.buttonFetchEvents);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
-            this.Name = "FormDanielFeature";
+            this.Name = "EventLocationsForm";
             this.ResumeLayout(false);
             this.PerformLayout();
 

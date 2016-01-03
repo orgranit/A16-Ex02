@@ -40,6 +40,7 @@ namespace _523116184522448
             this.eventBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.descriptionTextBox = new System.Windows.Forms.TextBox();
             this.eventsListBox = new System.Windows.Forms.ListBox();
+            this.eventsLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.userProfilePicturePictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.eventBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -77,14 +78,14 @@ namespace _523116184522448
             // 
             // userNameLabel1
             // 
-            this.userNameLabel1.Location = new System.Drawing.Point(12, 134);
+            this.userNameLabel1.Location = new System.Drawing.Point(12, 113);
             this.userNameLabel1.Name = "userNameLabel1";
-            this.userNameLabel1.Size = new System.Drawing.Size(100, 23);
+            this.userNameLabel1.Size = new System.Drawing.Size(97, 23);
             this.userNameLabel1.TabIndex = 9;
             // 
             // userProfilePicturePictureBox
             // 
-            this.userProfilePicturePictureBox.Location = new System.Drawing.Point(12, 19);
+            this.userProfilePicturePictureBox.Location = new System.Drawing.Point(12, 12);
             this.userProfilePicturePictureBox.Name = "userProfilePicturePictureBox";
             this.userProfilePicturePictureBox.Size = new System.Drawing.Size(100, 98);
             this.userProfilePicturePictureBox.TabIndex = 10;
@@ -102,22 +103,35 @@ namespace _523116184522448
             this.descriptionTextBox.Name = "descriptionTextBox";
             this.descriptionTextBox.Size = new System.Drawing.Size(206, 45);
             this.descriptionTextBox.TabIndex = 13;
+            this.descriptionTextBox.Visible = false;
             // 
             // eventsListBox
             // 
             this.eventsListBox.DataSource = this.eventBindingSource;
             this.eventsListBox.DisplayMember = "Name";
             this.eventsListBox.FormattingEnabled = true;
-            this.eventsListBox.Location = new System.Drawing.Point(118, 19);
+            this.eventsListBox.Location = new System.Drawing.Point(118, 32);
             this.eventsListBox.Name = "eventsListBox";
-            this.eventsListBox.Size = new System.Drawing.Size(206, 95);
+            this.eventsListBox.Size = new System.Drawing.Size(206, 82);
             this.eventsListBox.TabIndex = 14;
+            this.eventsListBox.Visible = false;
+            // 
+            // eventsLabel
+            // 
+            this.eventsLabel.AutoSize = true;
+            this.eventsLabel.Location = new System.Drawing.Point(118, 12);
+            this.eventsLabel.Name = "eventsLabel";
+            this.eventsLabel.Size = new System.Drawing.Size(73, 13);
+            this.eventsLabel.TabIndex = 15;
+            this.eventsLabel.Text = "Users Events:";
+            this.eventsLabel.Visible = false;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(337, 283);
+            this.Controls.Add(this.eventsLabel);
             this.Controls.Add(this.eventsListBox);
             this.Controls.Add(this.descriptionTextBox);
             this.Controls.Add(this.userProfilePicturePictureBox);
@@ -145,5 +159,6 @@ namespace _523116184522448
         private System.Windows.Forms.BindingSource eventBindingSource;
         private System.Windows.Forms.TextBox descriptionTextBox;
         private System.Windows.Forms.ListBox eventsListBox;
+        private System.Windows.Forms.Label eventsLabel;
     }
 }

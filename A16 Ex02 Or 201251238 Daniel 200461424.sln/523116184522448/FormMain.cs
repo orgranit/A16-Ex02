@@ -52,6 +52,10 @@ namespace _523116184522448
 
         private void fetchEvents()
         {
+            this.eventsLabel.Visible = true;
+            this.eventsListBox.Visible = true;
+            this.descriptionTextBox.Visible = true;
+            this.descriptionTextBox.SelectionLength = 0;
             eventBindingSource.DataSource = m_FBAdapter.Events;
         }
 
