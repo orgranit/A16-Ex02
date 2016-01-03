@@ -39,6 +39,7 @@ namespace _523116184522448
         }
 
         private User m_LoggedInUser;
+        private UserInfo m_BasicUserInfo;
         private LoginResult m_result;
         private List<Photo> m_EventPhotos;
         private Photo m_EventSelectedPhoto;
@@ -60,24 +61,24 @@ namespace _523116184522448
             {
                 isLoggedIn = true;
                 m_LoggedInUser = m_result.LoggedInUser;
+                m_BasicUserInfo = new UserInfo();
+                m_BasicUserInfo.m_Name = m_LoggedInUser.Name;
+                m_BasicUserInfo.m_Bio = m_LoggedInUser.Bio;
+                m_BasicUserInfo.m_ProfilePicture = m_LoggedInUser.ImageNormal;
+                m_BasicUserInfo.m_Posts = m_LoggedInUser.Posts;
             }
 
             return isLoggedIn;
         }
 
-        internal string UserName
+        internal UserInfo UserInfo
         {
-            get { return m_LoggedInUser.Name; }
+            get { return m_BasicUserInfo; }
         }
         
         internal string LoggedInError()
         {
             return m_result.ErrorMessage;
-        }
-
-        internal string UserPictureUrl()
-        {
-            return m_LoggedInUser.PictureNormalURL;
         }
         
         public IEnumerable<Event> Events 
@@ -263,5 +264,33 @@ namespace _523116184522448
     {
         public double X;
         public double Y;
+    }
+
+    public struct UserInfo
+    {
+        internal string m_Name;
+        internal string m_Bio;
+        internal System.Drawing.Image m_ProfilePicture;
+        internal FacebookObjectCollection<Post> m_Posts;
+
+        public string Name
+        {
+            get { return m_Name; }
+        }
+
+        public string Bio
+        {
+            get { return m_Bio; }
+        }
+
+        public System.Drawing.Image ProfilePitcture
+        {
+            get { return m_ProfilePicture; }
+        }
+
+        public FacebookObjectCollection<Post> Posts
+        {
+            get { return m_Posts; }
+        }
     }
 }
