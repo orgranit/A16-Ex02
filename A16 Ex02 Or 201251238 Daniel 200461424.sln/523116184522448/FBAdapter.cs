@@ -65,7 +65,6 @@ namespace _523116184522448
                 m_BasicUserInfo.m_Name = m_LoggedInUser.Name;
                 m_BasicUserInfo.m_Bio = m_LoggedInUser.Bio;
                 m_BasicUserInfo.m_ProfilePicture = m_LoggedInUser.ImageNormal;
-                m_BasicUserInfo.m_Posts = m_LoggedInUser.Posts;
             }
 
             return isLoggedIn;
@@ -271,7 +270,6 @@ namespace _523116184522448
         internal string m_Name;
         internal string m_Bio;
         internal System.Drawing.Image m_ProfilePicture;
-        internal FacebookObjectCollection<Post> m_Posts;
 
         public string Name
         {
@@ -281,16 +279,12 @@ namespace _523116184522448
         public string Bio
         {
             get { return m_Bio; }
+            set { m_Bio = value; }
         }
 
         public System.Drawing.Image ProfilePitcture
         {
             get { return m_ProfilePicture; }
-        }
-
-        public FacebookObjectCollection<Post> Posts
-        {
-            get { return m_Posts; }
         }
     }
 }

@@ -45,8 +45,9 @@ namespace _523116184522448
 
         private void fetchUserInfo()
         {
-            //userBindingSource.DataSource = m_FBAdapter.UserInfo;
             userInfoBindingSource.DataSource = m_FBAdapter.UserInfo;
+            this.bioTextBox.Visible = true;
+            this.bioLabel.Visible = true;
         }
 
         private void buttonEventLocations_Click(object sender, EventArgs e)
@@ -64,16 +65,3 @@ namespace _523116184522448
         }
     }
 }
-
-
-//userProfilePicturePictureBox.LoadAsync(m_FBAdapter.UserPictureUrl());
-//            userNameLabel1.Text = m_FBAdapter.UserName;
-
-//private void fetchEvents()
-//{
-//    this.eventsLabel.Visible = true;
-//    this.eventsListBox.Visible = true;
-//    this.descriptionTextBox.Visible = true;
-//    this.descriptionTextBox.SelectionLength = 0;
-//    eventBindingSource.DataSource = m_FBAdapter.Events;
-//}
