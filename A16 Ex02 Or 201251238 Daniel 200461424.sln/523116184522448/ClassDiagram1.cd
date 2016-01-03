@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="_523116184522448.FBAdapter">
+    <Position X="6.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAADEAAQAYAAAEgiAAAIABgCAABI4QCoQAAAgACA=</HashCode>
+      <FileName>FBAdapter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_523116184522448.EventImagesForm">
+    <Position X="3.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>DAAAAQAIACkCEgAAABSABAgDEBgBAABAAAAgAIAAMBI=</HashCode>
+      <FileName>FormEventImages.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_523116184522448.EventLocationsForm">
+    <Position X="5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAQAIACACAAQAAACAAAgLEAABAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>FormEventLocations.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_523116184522448.MainForm">
+    <Position X="2" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAICAAIACAAIAABAoCAQAASABAwAAAAAAFAAAAgAAA=</HashCode>
+      <FileName>FormMain.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_523116184522448.Program">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_EventFullyApp.ImageContainerFacade">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAEAAQAAAAEAAAAAgAAAAAAQAAA=</HashCode>
+      <FileName>ImageContainerFacade.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="_523116184522448.PointD">
+    <Position X="0.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAA=</HashCode>
+      <FileName>FBAdapter.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="_523116184522448.UserInfo">
+    <Position X="0.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAACAAACAAAAAQAAAAAQAAAAABAAAAAAAA=</HashCode>
+      <FileName>FBAdapter.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

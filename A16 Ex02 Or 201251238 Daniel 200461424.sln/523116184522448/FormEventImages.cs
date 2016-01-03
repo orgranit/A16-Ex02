@@ -15,7 +15,7 @@ namespace _523116184522448
     {
         protected const int k_NumOfImages = 5;
         private FBAdapter m_FBAdapter;
-        private ImageContinerFacade m_imageContainerFacade; 
+        private ImageContainerFacade m_imageContainerFacade; 
 
         public FBAdapter FBUtilities
         {
@@ -25,7 +25,7 @@ namespace _523116184522448
         public EventImagesForm()
         {
             InitializeComponent();
-            m_imageContainerFacade = new ImageContinerFacade { ImageList = imageListEventImages, ListView = listView };
+            m_imageContainerFacade = new ImageContainerFacade { ImageList = imageListEventImages, ListView = listView };
         }
 
         // button 'buttonFetchEvents' clicked
