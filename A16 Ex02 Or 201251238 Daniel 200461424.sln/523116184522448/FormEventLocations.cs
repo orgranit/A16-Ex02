@@ -51,7 +51,7 @@ namespace _523116184522448
 
         private void buttonFetchEvents_Click(object sender, EventArgs e)
         {
-            new Thread(() => m_FBAdapter.fetchCollectionAsync(listBoxEvents, m_FBAdapter.Events, "Name")).Start();
+            new Thread(() => m_FBAdapter.FetchCollectionAsync(listBoxEvents, m_FBAdapter.Events, "Name")).Start();
             new Thread(() => loadMap()).Start();
         }
 

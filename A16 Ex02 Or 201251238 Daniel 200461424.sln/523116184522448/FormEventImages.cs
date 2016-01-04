@@ -13,9 +13,9 @@ namespace _523116184522448
 {
     public partial class EventImagesForm : Form
     {
-        protected const int k_NumOfImages = 5;
+        private const int k_NumOfImages = 5;
         private FBAdapter m_FBAdapter;
-        private ImageContainerFacade m_imageContainerFacade; 
+        private ImageContainerFacade m_ImageContainerFacade; 
 
         public FBAdapter FBUtilities
         {
@@ -25,7 +25,7 @@ namespace _523116184522448
         public EventImagesForm()
         {
             InitializeComponent();
-            m_imageContainerFacade = new ImageContainerFacade { ImageList = imageListEventImages, ListView = listView };
+            m_ImageContainerFacade = new ImageContainerFacade { ImageList = imageListEventImages, ListView = listView };
         }
 
         // button 'buttonFetchEvents' clicked
@@ -33,7 +33,7 @@ namespace _523116184522448
         {
             Thread thread = new Thread(() =>
             {
-                m_FBAdapter.fetchCollectionAsync(listBoxEvents, m_FBAdapter.Events, "Name");
+                m_FBAdapter.FetchCollectionAsync(listBoxEvents, m_FBAdapter.Events, "Name");
             });
             thread.Start();
         }
@@ -49,18 +49,18 @@ namespace _523116184522448
         // new selected item in 'listView' (which contains the photos)
         private void listView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int selectedIndex = m_imageContainerFacade.SelectedItemChanged();
+            int selectedIndex = m_ImageContainerFacade.SelectedItemChanged();
             if (selectedIndex > 0)
             {
                 listBoxComments.Items.Clear();
                 m_FBAdapter.EventSelectedPhoto = selectedIndex;
                 new Thread(
-                    () => m_FBAdapter.fetchCollectionAsync(listBoxComments, m_FBAdapter.EventPhotoComments, "Message")).Start();
+                    () => m_FBAdapter.FetchCollectionAsync(listBoxComments, m_FBAdapter.EventPhotoComments, "Message")).Start();
             }      
         }
 
         // button 'buttonlikePhoto' clicked
-        private void buttonlikePhto_Click(object sender, EventArgs e)
+        private void buttonLikePhoto_Click(object sender, EventArgs e)
         {
             new Thread(() => likeSelectedPhoto()).Start();
         }
@@ -73,7 +73,7 @@ namespace _523116184522448
                 postCommentOnSelectedPhoto();
                 if (m_FBAdapter.HasEventSelectedPhoto)
                 {
-                    m_FBAdapter.fetchCollectionAsync(listBoxComments, m_FBAdapter.EventPhotoComments, "Message");
+                    m_FBAdapter.FetchCollectionAsync(listBoxComments, m_FBAdapter.EventPhotoComments, "Message");
                 }
             });
             thread.Start();
@@ -86,7 +86,7 @@ namespace _523116184522448
             {
                 if (!string.IsNullOrEmpty(textBoxCommentPhoto.Text))
                 {
-                    if (m_FBAdapter.CommentOnEventSelctedPhoto(textBoxCommentPhoto.Text))
+                    if (m_FBAdapter.CommentOnEventSelectedPhoto(textBoxCommentPhoto.Text))
                     {
                         MessageBox.Show("Comment Succeded!");
                         textBoxCommentPhoto.Invoke(new Action(() => textBoxCommentPhoto.Clear()));
@@ -128,22 +128,22 @@ namespace _523116184522448
         private void displaySelectedEventImages()
         {
             // the event location is usually a FB page if not we cant show any photos
-            object selctedItem = listBoxEvents.SelectedItem;
+            object selectedItem = listBoxEvents.SelectedItem;
 
             // Clear Old Images
-            m_imageContainerFacade.ImagesClear();
-            if (m_FBAdapter.HasAlbumsEvent(selctedItem))
+            m_ImageContainerFacade.ImagesClear();
+            if (m_FBAdapter.HasAlbumsEvent(selectedItem))
             {
                 Thread thread = new Thread(() =>
                 {
-                    m_FBAdapter.GenerateRandomPhotosEvent(selctedItem, k_NumOfImages);
+                    m_FBAdapter.GenerateRandomPhotosEvent(selectedItem, k_NumOfImages);
                     displayPhotosAsync(m_FBAdapter.EventPhotosNames, m_FBAdapter.EventPhotosUrls);
                 });
                 thread.Start();
             }
             else
             {
-                m_imageContainerFacade.ImagesClear();
+                m_ImageContainerFacade.ImagesClear();
                 MessageBox.Show("No items to display.");
             }
         }
@@ -153,7 +153,7 @@ namespace _523116184522448
             for (int i = 0; i < i_SelectedEventPhotosUrl.Count; i++)
             {
                 // Add new Images
-                m_imageContainerFacade.InvokeImagesAdd(loadImage(i_SelectedEventPhotosUrl[i]), i_SelectedEventPhotosNames[i], i);
+                m_ImageContainerFacade.InvokeImagesAdd(loadImage(i_SelectedEventPhotosUrl[i]), i_SelectedEventPhotosNames[i], i);
             }
         }
 

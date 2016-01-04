@@ -42,27 +42,97 @@ namespace _523116184522448
 
         private User m_LoggedInUser;
         private UserInfo m_BasicUserInfo;
-        private LoginResult m_result;
+        private LoginResult m_Result;
         private List<Photo> m_EventPhotos;
         private Photo m_EventSelectedPhoto;
+
+        internal UserInfo UserInfo
+        {
+            get { return m_BasicUserInfo; }
+        }
+        
+        public IEnumerable<Event> Events 
+        {
+            get { return m_LoggedInUser.Events; }     
+        }
+
+        public List<string> EventPhotosNames
+        {
+            get
+            {
+                List<string> names = new List<string>();
+                foreach (Photo photo in m_EventPhotos)
+                {
+                    names.Add(photo.Name);
+                }
+
+                return names;
+            }
+        }
+
+        public List<string> EventPhotosUrls
+        {
+            get
+            {
+                List<string> urls = new List<string>();
+                foreach (Photo photo in m_EventPhotos)
+                {
+                    urls.Add(photo.PictureNormalURL);
+                }
+
+                return urls;
+            }
+        }
+
+        public object EventSelectedPhoto
+        {
+            set
+            {
+                m_EventSelectedPhoto = m_EventPhotos[(int)value];
+            }
+        }
+
+        public IEnumerable<object> EventPhotoComments
+        {
+            get
+            {
+                return m_EventSelectedPhoto.Comments;
+            }
+        }
+
+        public bool HasEventSelectedPhoto
+        {
+            get
+            {
+                return m_EventSelectedPhoto != null;
+            }
+        }
+
+        public bool HasEventSelectedPhotoLikedByUser
+        {
+            get
+            {
+                return m_EventSelectedPhoto.LikedBy.Contains(m_LoggedInUser);
+            }
+        }
 
         internal bool Login()
         {
             bool isLoggedIn = false;
 
             // Login
-            m_result = FacebookService.Login(
+            m_Result = FacebookService.Login(
                 "523116184522448",
                 "public_profile",
                 "user_posts",
-                "user_photos", 
+                "user_photos",
                 "user_events");
 
             // Verify input
-            if (!string.IsNullOrEmpty(m_result.AccessToken))
+            if (!string.IsNullOrEmpty(m_Result.AccessToken))
             {
                 isLoggedIn = true;
-                m_LoggedInUser = m_result.LoggedInUser;
+                m_LoggedInUser = m_Result.LoggedInUser;
                 m_BasicUserInfo = new UserInfo();
                 m_BasicUserInfo.m_Name = m_LoggedInUser.Name;
                 m_BasicUserInfo.m_Bio = m_LoggedInUser.Bio;
@@ -72,19 +142,9 @@ namespace _523116184522448
             return isLoggedIn;
         }
 
-        internal UserInfo UserInfo
-        {
-            get { return m_BasicUserInfo; }
-        }
-        
         internal string LoggedInError()
         {
-            return m_result.ErrorMessage;
-        }
-        
-        public IEnumerable<Event> Events 
-        {
-            get { return m_LoggedInUser.Events; }     
+            return m_Result.ErrorMessage;
         }
 
         internal bool HasAlbumsEvent(object i_Event)
@@ -134,64 +194,12 @@ namespace _523116184522448
             }
         }
 
-        public List<string> EventPhotosNames 
-        { 
-            get 
-            { 
-                List<string> names = new List<string>();
-                foreach (Photo photo in m_EventPhotos)
-                {
-                    names.Add(photo.Name);
-                }
-
-                return names;
-            } 
-        }
-
-        public List<string> EventPhotosUrls
-        {
-            get
-            {
-                List<string> urls = new List<string>();
-                foreach (Photo photo in m_EventPhotos)
-                {
-                    urls.Add(photo.PictureNormalURL);
-                }
-
-                return urls;
-            }
-        }
-
-        public object EventSelectedPhoto 
-        { 
-            set 
-            {
-                m_EventSelectedPhoto = m_EventPhotos[(int) value];
-            } 
-        }
-
-        public IEnumerable<object> EventPhotoComments 
-        { 
-            get 
-            { 
-                return m_EventSelectedPhoto.Comments; 
-            } 
-        }
-
         internal void ResetEventSelectedPhoto()
         {
             m_EventSelectedPhoto = null;
         }
 
-        public bool HasEventSelectedPhoto 
-        { 
-            get 
-            { 
-                return m_EventSelectedPhoto != null; 
-            } 
-        }
-
-        public void fetchCollectionAsync(ListBox i_Listbox, IEnumerable<object> i_Collection, string i_MemberToDisplay)
+        public void FetchCollectionAsync(ListBox i_Listbox, IEnumerable<object> i_Collection, string i_MemberToDisplay)
         {
             i_Listbox.Invoke(new Action(() => i_Listbox.Items.Clear()));
             i_Listbox.Invoke(new Action(() => i_Listbox.DisplayMember = i_MemberToDisplay));
@@ -206,18 +214,10 @@ namespace _523116184522448
             }
         }
 
-        internal bool CommentOnEventSelctedPhoto(string i_Comment)
+        internal bool CommentOnEventSelectedPhoto(string i_Comment)
         {
             Comment comment = m_EventSelectedPhoto.Comment(i_Comment);
             return comment != null;
-        }
-
-        public bool HasEventSelectedPhotoLikedByUser 
-        { 
-            get 
-            { 
-                return m_EventSelectedPhoto.LikedBy.Contains(m_LoggedInUser); 
-            } 
         }
 
         internal bool LikeEventSelectedPhoto()
@@ -263,8 +263,9 @@ namespace _523116184522448
 
     public struct PointD
     {
-        public double X;
-        public double Y;
+        public double X { get; set; }
+
+        public double Y { get; set; }
     }
 
     public struct UserInfo

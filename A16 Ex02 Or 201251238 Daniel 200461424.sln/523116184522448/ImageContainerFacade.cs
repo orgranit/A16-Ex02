@@ -13,7 +13,7 @@ namespace _523116184522448
 
         public ListView ListView { get; set; }
 
-        internal void ImagesAdd(Image i_Image, string i_ImageName, int i_ImageIndex)
+        private void imagesAdd(Image i_Image, string i_ImageName, int i_ImageIndex)
         {
             ImageList.Images.Add(i_Image);
             ListView.Items.Add(i_ImageName, i_ImageIndex);
@@ -27,7 +27,7 @@ namespace _523116184522448
 
         internal void InvokeImagesAdd(Image i_Image, string i_ImageName, int i_ImageIndex)
         {
-            ListView.Invoke(new Action(() => ImagesAdd(i_Image, i_ImageName, i_ImageIndex)));
+            ListView.Invoke(new Action(() => imagesAdd(i_Image, i_ImageName, i_ImageIndex)));
         }
         
         internal int SelectedItemChanged()
