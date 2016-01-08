@@ -1,0 +1,10 @@
+==========================Exercise Checking Report==========================
+Exercise No...........: 2
+First Student Details.: 201251238 - Or Granit
+Second Student Details: 200461424 - Daniel Ben-Zvi
+Delivery Date.........: 4 - January - 2016
+Delivered In Delay....: Yes - One day in delay.
+Delay Reason..........:
+Visual Studio Version.: Visual Studio community 2013
+Comments..............: none.
+=======================End Exercise Checking Report=========================
